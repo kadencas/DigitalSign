@@ -1,0 +1,26 @@
+name: Build and Deploy HTML and PHP
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        run: sudo apt-get update && sudo apt-get install php
+
+      - name: Build the website
+        run: php upload.php
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-to-github-pages@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          publish-branch: gh-pages
+          push-branch: gh-pages
